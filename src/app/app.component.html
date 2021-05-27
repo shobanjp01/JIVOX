@@ -1,0 +1,50 @@
+<mat-paginator
+  [length]="dataSource.length"
+  [pageSize]="pageSize"
+  (page)="onPageChanged($event)"
+></mat-paginator>
+<table
+  mat-table
+  #table
+  [dataSource]="activePageDataChunk"
+  cdkDropList
+  [cdkDropListData]="activePageDataChunk"
+  (cdkDropListDropped)="dropTable($event)"
+>
+  <ng-container matColumnDef="sNo">
+    <th mat-header-cell *matHeaderCellDef>S.No</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      {{ firstCut + i + 1 }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ruleName">
+    <th mat-header-cell *matHeaderCellDef>Rule Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.ruleName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <mat-icon class="pointer" title="Clone" (click)="cloneRowData(element, i)"
+        >file_copy</mat-icon
+      >
+      <mat-icon class="pointer" title="Delete" (click)="deleteRowData(i)"
+        >delete</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    cdkDrag
+    [cdkDragData]="row"
+  ></tr>
+</table>
